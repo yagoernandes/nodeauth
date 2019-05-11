@@ -13,7 +13,7 @@ describe('Authentication', () => {
       const user = await User.create({
          name: 'Yago',
          email: 'testando@gmail.com',
-         password_hash: '12312312312321'
+         password: '123123'
       })
 
       const response = await request(app)
@@ -23,5 +23,37 @@ describe('Authentication', () => {
             password: '123123'
          })
       expect(response.status).toBe(200)
+   })
+
+   it('should not authenticate with invalid credentials', async () => {
+      const user = await User.create({
+         name: 'Yago',
+         email: 'testando@gmail.com',
+         password: '123123'
+      })
+
+      const response = await request(app)
+         .post('/sessions')
+         .send({
+            email: user.email,
+            password: '123456_senha_incorreta'
+         })
+      expect(response.status).toBe(401)
+   })
+
+   it('should receive a JT token when authenticated', async () => {
+      const user = await User.create({
+         name: 'Yago',
+         email: 'testando@gmail.com',
+         password: '123123'
+      })
+
+      const response = await request(app)
+         .post('/sessions')
+         .send({
+            email: user.email,
+            password: '123123'
+         })
+      expect(response.body).toHaveProperty("token")
    })
 })
