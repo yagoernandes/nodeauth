@@ -1,16 +1,22 @@
+const request = require('supertest')
+const app = require('../../src/app')
+
 const { User } = require('../../src/app/models')
 
 describe('Authentication', () => {
-   // it('should receive JWT token when authenticated with valid credentials.', () => {
-
-   // });
-   it('should create a user correctly.', async () => {
-      console.log('---------------- ENVIRONMENT: ', process.env)
+   it('should authenticate with valid credentials.', async () => {
       const user = await User.create({
          name: 'Yago',
-         email: 'teste@gmail.com',
-         password_hash: '123123123123'
+         email: 'testando@gmail.com',
+         password_hash: '12312312312321'
       })
-      expect(user.email).toBe('teste@gmail.com')
-   });
+
+      const response = await request(app)
+         .post('/sessions')
+         .send({
+            email: user.email,
+            password: '123123'
+         })
+      expect(response.status).toBe(200)
+   })
 })

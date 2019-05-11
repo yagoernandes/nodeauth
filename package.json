@@ -22,6 +22,7 @@
     "jest": "^24.8.0",
     "nodemon": "^1.19.0",
     "sequelize-cli": "^5.4.0",
-    "sqlite3": "^4.0.8"
+    "sqlite3": "^4.0.8",
+    "supertest": "^4.0.2"
   }
 }
