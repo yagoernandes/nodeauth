@@ -10,13 +10,15 @@ describe('Authentication', () => {
    })
 
    it('should authenticate with valid credentials.', async () => {
-      const user = await factory.create('User')
+      const user = await factory.create('User', {
+         password: '123123'
+      })
 
       const response = await request(app)
          .post('/sessions')
          .send({
             email: user.email,
-            password: '123456'
+            password: '123123'
          })
       expect(response.status).toBe(200)
    })
@@ -36,13 +38,15 @@ describe('Authentication', () => {
    })
 
    it('should receive a JT token when authenticated', async () => {
-      const user = await factory.create('User')
+      const user = await factory.create('User', {
+         password: '123123'
+      })
 
       const response = await request(app)
          .post('/sessions')
          .send({
             email: user.email,
-            password: '123456'
+            password: '123123'
          })
       expect(response.body).toHaveProperty("token")
    })
